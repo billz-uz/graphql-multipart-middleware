@@ -47,7 +47,6 @@ var (
 // see more at: https://github.com/jaydenseric/graphql-multipart-request-spec/tree/v2.0.0
 type MultipartHandler struct {
 	Schema    *graphql.Schema
-	RootValue map[string]interface{}
 	next      http.Handler
 	maxMemory int64
 }
@@ -55,10 +54,9 @@ type MultipartHandler struct {
 // NewHandler wraps the default GraphQL handler within a MultipartHandler, if it
 // receives a request that is not "multipart/form-data", it will be forwarded to
 // the wrapped handler
-func NewHandler(s *graphql.Schema, maxMemory int64, rootValue map[string]interface{}, next http.Handler) http.Handler {
+func NewHandler(s *graphql.Schema, maxMemory int64, next http.Handler) http.Handler {
 	return MultipartHandler{
 		Schema:    s,
-		RootValue: rootValue,
 		maxMemory: maxMemory,
 		next:      next,
 	}
@@ -200,7 +198,6 @@ func (m MultipartHandler) execute(op operationField, fMap map[string][]string, r
 		VariableValues: *op.Variables,
 		OperationName:  op.OperationName,
 		Context:        r.Context(),
-		RootObject:     m.RootValue,
 	})
 }
 
