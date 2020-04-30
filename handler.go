@@ -66,7 +66,7 @@ func NewHandler(s *graphql.Schema, maxMemory int64, rootValue map[string]interfa
 
 // NewMiddlewareWrapper retrieves a func to help wrap multiple GraphQL handler with
 // the MultipartHandler
-func NewMiddlewareWrapper(s *graphql.Schema, maxMemory int6, rootValue map[string]interface{}) func(next http.Handler) http.Handler {
+func NewMiddlewareWrapper(s *graphql.Schema, maxMemory int64, rootValue map[string]interface{}) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return NewHandler(s, maxMemory, rootValue, next)
 	}
